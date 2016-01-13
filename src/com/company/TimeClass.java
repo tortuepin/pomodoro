@@ -34,7 +34,17 @@ class TimeClass extends TimerTask{
         return second;
     }
 
+    public void setSecond(int sec){
+        second = sec;
+    }
+
 }
+
+
+
+
+
+
 
 class RunTimer{
     //タイマー本体
@@ -44,17 +54,41 @@ class RunTimer{
 
         System.out.println("Key Press End Timer");
 
-        //1000秒おきにtimeClassを呼び出す
+        //1000ミリ秒おきにtimeClassを呼び出す
         timer.scheduleAtFixedRate(timeClass, 0, 1000);
 
         try {
             System.in.read();
-            timer.cancel();
+            //timer.cancel();
+            int a = StopTimer(timeClass,timer);
+            System.out.print(a);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    //タイマーをキャンセルして、現在の時間を保存
+    public int StopTimer(TimeClass timeclass, Timer timer){
+        int second = timeclass.getSecond();
+        timer.cancel();
+        return second;
+    }
+
+    //指定した時間からタイマーをリスタート
+    public void RestartTimer(TimeClass timeclass, Timer timer, int second){
+        timeclass.setSecond(second);
+        timer.scheduleAtFixedRate(timeclass, 0, 1000);
+    }
+
+
 }
+
+
+
+
+
+
+
 
 class TimeUnit{
 
