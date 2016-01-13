@@ -15,17 +15,19 @@ import java.util.TimerTask;
 class TimeClass extends TimerTask{
 
     private int second;
+    TimeUnit tu = new TimeUnit();
 
     public TimeClass(){
         super();
         second = 0;
+
     }
     //Timer.schedule()が呼び出された時にすること。
     public void run(){
         //秒数を表示する
         second++;
         if(second != 1) System.out.print("\r");
-        System.out.print(second);
+        System.out.print(tu.getTime(second));
     }
 
     public int getSecond(){
@@ -43,7 +45,7 @@ class RunTimer{
         System.out.println("Key Press End Timer");
 
         //1000秒おきにtimeClassを呼び出す
-        timer.scheduleAtFixedRate(timeClass,0,1000);
+        timer.scheduleAtFixedRate(timeClass, 0, 1000);
 
         try {
             System.in.read();
@@ -68,6 +70,8 @@ class TimeUnit{
         return (sec/60)/60;
     }
 
-
+    public String getTime(int sec){
+        return getHourfromSeconds(sec) + "時間" + getMinutesfromSeconds(sec) + "分" + getSecondsfromSeconds(sec) + "秒";
+    }
 
 }
