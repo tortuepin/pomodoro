@@ -60,8 +60,7 @@ class RunTimer{
         try {
             System.in.read();
             //timer.cancel();
-            int a = StopTimer(timeClass,timer);
-            System.out.print(a);
+            StopTimer(timeClass,timer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +78,6 @@ class RunTimer{
         timeclass.setSecond(second);
         timer.scheduleAtFixedRate(timeclass, 0, 1000);
     }
-
 
 }
 
@@ -108,4 +106,12 @@ class TimeUnit{
         return getHourfromSeconds(sec) + "時間" + getMinutesfromSeconds(sec) + "分" + getSecondsfromSeconds(sec) + "秒";
     }
 
+    //ストップウォッチ用
+    public int reverseTime(int sec, int marksec){
+        int ret = marksec - sec;
+        if(ret < 0){
+            ret = 0;
+        }
+        return ret;
+    }
 }
