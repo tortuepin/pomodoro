@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.scene.paint.Stop;
+
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,35 +50,50 @@ class TimeClass extends TimerTask{
 
 class RunTimer{
     //タイマー本体
-    public void time(){
-        Timer timer = new Timer();
-        TimeClass timeClass = new TimeClass();
+
+    Timer timer;
+
+
+    public RunTimer(){
+        timer = new Timer(true);
+    }
+
+
+    public void time() throws IOException {
+
+        int pretime = 0;
+        int x = 1;
 
         System.out.println("Key Press End Timer");
 
-        //1000ミリ秒おきにtimeClassを呼び出す
-        timer.scheduleAtFixedRate(timeClass, 0, 1000);
 
-        try {
+        while(x > 0) {
+            TimeClass timeClass = RestartTimer(pretime);
+            pretime = StopTimer(timeClass);
             System.in.read();
-            //timer.cancel();
-            StopTimer(timeClass,timer);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        System.out.print("end");
+
+
+
     }
 
     //タイマーをキャンセルして、現在の時間を保存
-    public int StopTimer(TimeClass timeclass, Timer timer){
+    public int StopTimer(TimeClass timeclass){
         int second = timeclass.getSecond();
-        timer.cancel();
+        timeclass.cancel();
         return second;
     }
 
-    //指定した時間からタイマーをリスタート
-    public void RestartTimer(TimeClass timeclass, Timer timer, int second){
-        timeclass.setSecond(second);
-        timer.scheduleAtFixedRate(timeclass, 0, 1000);
+    //指定した時間からタイマーをスタート
+    public TimeClass RestartTimer(int second) throws IOException {
+        TimeClass timeClass = new TimeClass();
+
+        timeClass.setSecond(second);
+        timer.scheduleAtFixedRate(timeClass, 0, 1000);
+
+        System.in.read();
+        return timeClass;
     }
 
 }
@@ -106,12 +123,12 @@ class TimeUnit{
         return getHourfromSeconds(sec) + "時間" + getMinutesfromSeconds(sec) + "分" + getSecondsfromSeconds(sec) + "秒";
     }
 
-    //ストップウォッチ用
-    public int reverseTime(int sec, int marksec){
+    //ストップウォッチ用getTime
+    public String reverseTime(int sec, int marksec){
         int ret = marksec - sec;
         if(ret < 0){
             ret = 0;
         }
-        return ret;
+        return getTime(ret);
     }
 }
