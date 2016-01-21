@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.scene.paint.Stop;
-
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,12 +12,12 @@ import java.util.TimerTask;
  */
 
 
-class TimeClass extends TimerTask{
+class TaskOfStopwatch extends TimerTask{
 
-    private int second;
+    protected int second;
     TimeUnit tu = new TimeUnit();
 
-    public TimeClass(){
+    public TaskOfStopwatch(){
         super();
         second = 0;
 
@@ -40,6 +38,19 @@ class TimeClass extends TimerTask{
         second = sec;
     }
 
+}
+
+
+
+class TaskOfTimer extends TaskOfStopwatch {
+
+    @Override
+    public void run() {
+        //秒数を表示する
+        second++;
+        if(second != 1) System.out.print("\r");
+        System.out.print(tu.reverseTime(second, 60));
+    }
 }
 
 
@@ -78,14 +89,23 @@ class RunTimer{
         switch (checkcom){
             case 0:
                 //timer
+                while(x > 0) {
+                    TaskOfTimer tot = (TaskOfTimer) RestartTimer(pretime);
+                    pretime = StopTimer(tot);
+                    System.out.println("「q」で終了。他で再開。");
+                    checktimecom = su.InputLine();
+
+                    //qが入力されたら終了。
+                    if(checktimecom.equals("q")) x = -1;
+                }
                 break;
 
 
             case 1:
                 //stopwatch
                 while(x > 0) {
-                    TimeClass timeClass = RestartTimer(pretime);
-                    pretime = StopTimer(timeClass);
+                    TaskOfStopwatch taskOfStopwatch = RestartTimer(pretime);
+                    pretime = StopTimer(taskOfStopwatch);
                     System.out.println("「q」で終了。他で再開。");
                     checktimecom = su.InputLine();
 
@@ -103,8 +123,8 @@ class RunTimer{
 
 
         while(x > 0) {
-            TimeClass timeClass = RestartTimer(pretime);
-            pretime = StopTimer(timeClass);
+            TaskOfStopwatch taskOfStopwatch = RestartTimer(pretime);
+            pretime = StopTimer(taskOfStopwatch);
             System.in.read();
         }
         System.out.print("end");
@@ -114,21 +134,21 @@ class RunTimer{
     }
 
     //タイマーをキャンセルして、現在の時間を保存
-    public int StopTimer(TimeClass timeclass){
+    public int StopTimer(TaskOfStopwatch timeclass){
         int second = timeclass.getSecond();
         timeclass.cancel();
         return second;
     }
 
     //指定した時間からタイマーをスタート
-    public TimeClass RestartTimer(int second) throws IOException {
-        TimeClass timeClass = new TimeClass();
+    public TaskOfStopwatch RestartTimer(int second) throws IOException {
+        TaskOfStopwatch taskOfStopwatch = new TaskOfStopwatch();
 
-        timeClass.setSecond(second);
-        timer.scheduleAtFixedRate(timeClass, 0, 1000);
+        taskOfStopwatch.setSecond(second);
+        timer.scheduleAtFixedRate(taskOfStopwatch, 0, 1000);
 
         System.in.read();
-        return timeClass;
+        return taskOfStopwatch;
     }
 
 }
