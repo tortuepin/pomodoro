@@ -52,10 +52,18 @@ class RunTimer{
     //タイマー本体
 
     Timer timer;
+    StringUtil su;
+    int checkcom;
+    /*
+        timer       0
+        stopwatch   1
+        pomodoro    2
+     */
 
-
-    public RunTimer(){
+    public RunTimer(int x){
         timer = new Timer(true);
+        checkcom = x;
+        su = new StringUtil();
     }
 
 
@@ -63,8 +71,35 @@ class RunTimer{
 
         int pretime = 0;
         int x = 1;
+        String checktimecom;
 
         System.out.println("Key Press End Timer");
+
+        switch (checkcom){
+            case 0:
+                //timer
+                break;
+
+
+            case 1:
+                //stopwatch
+                while(x > 0) {
+                    TimeClass timeClass = RestartTimer(pretime);
+                    pretime = StopTimer(timeClass);
+                    System.out.println("「q」で終了。他で再開。");
+                    checktimecom = su.InputLine();
+
+                    //qが入力されたら終了。
+                    if(checktimecom.equals("q")) x = -1;
+                }
+                break;
+
+
+            case 2:
+                //pomodoro
+                break;
+
+        }
 
 
         while(x > 0) {

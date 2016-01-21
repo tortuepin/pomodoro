@@ -12,7 +12,7 @@ public class Main {
         System.out.println("timer stopwatch pomodoro");
         cm.CheckCommand();
 
-        RunTimer runtimer = new RunTimer();
+        RunTimer runtimer = new RunTimer(1);
         runtimer.time();
     }
 }
