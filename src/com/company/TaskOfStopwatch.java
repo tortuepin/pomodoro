@@ -88,23 +88,9 @@ class RunTimer{
 
         switch (checkcom){
             case 0:
-                //timer
-                while(x > 0) {
-                    TaskOfTimer tot = (TaskOfTimer) RestartTimer(pretime);
-                    pretime = StopTimer(tot);
-                    System.out.println("「q」で終了。他で再開。");
-                    checktimecom = su.InputLine();
-
-                    //qが入力されたら終了。
-                    if(checktimecom.equals("q")) x = -1;
-                }
-                break;
-
-
-            case 1:
                 //stopwatch
                 while(x > 0) {
-                    TaskOfStopwatch taskOfStopwatch = RestartTimer(pretime);
+                    TaskOfStopwatch taskOfStopwatch = RestartStopwatch(pretime);
                     pretime = StopTimer(taskOfStopwatch);
                     System.out.println("「q」で終了。他で再開。");
                     checktimecom = su.InputLine();
@@ -115,6 +101,22 @@ class RunTimer{
                 break;
 
 
+            case 1:
+                //timer
+                while(x > 0) {
+                    TaskOfTimer tot = RestartTimer(pretime);
+                    pretime = StopTimer(tot);
+                    System.out.println("「q」で終了。他で再開。");
+                    checktimecom = su.InputLine();
+
+                    //qが入力されたら終了。
+                    if(checktimecom.equals("q")) x = -1;
+                }
+                break;
+
+
+
+
             case 2:
                 //pomodoro
                 break;
@@ -123,7 +125,7 @@ class RunTimer{
 
 
         while(x > 0) {
-            TaskOfStopwatch taskOfStopwatch = RestartTimer(pretime);
+            TaskOfStopwatch taskOfStopwatch = RestartStopwatch(pretime);
             pretime = StopTimer(taskOfStopwatch);
             System.in.read();
         }
@@ -135,13 +137,25 @@ class RunTimer{
 
     //タイマーをキャンセルして、現在の時間を保存
     public int StopTimer(TaskOfStopwatch timeclass){
+        //ストップウォッチ用
+        int second = timeclass.getSecond();
+        timeclass.cancel();
+        return second;
+    }
+    public int StopTimer(TaskOfTimer timeclass){
+        //タイマー用
         int second = timeclass.getSecond();
         timeclass.cancel();
         return second;
     }
 
+
+
+
+
+
     //指定した時間からタイマーをスタート
-    public TaskOfStopwatch RestartTimer(int second) throws IOException {
+    public TaskOfStopwatch RestartStopwatch(int second) throws IOException {
         TaskOfStopwatch taskOfStopwatch = new TaskOfStopwatch();
 
         taskOfStopwatch.setSecond(second);
@@ -149,6 +163,15 @@ class RunTimer{
 
         System.in.read();
         return taskOfStopwatch;
+    }
+    public TaskOfTimer RestartTimer(int second) throws IOException {
+        TaskOfTimer taskOfTimer = new TaskOfTimer();
+
+        taskOfTimer.setSecond(second);
+        timer.scheduleAtFixedRate(taskOfTimer,0, 1000);
+
+        System.in.read();
+        return taskOfTimer;
     }
 
 }
@@ -178,7 +201,7 @@ class TimeUnit{
         return getHourfromSeconds(sec) + "時間" + getMinutesfromSeconds(sec) + "分" + getSecondsfromSeconds(sec) + "秒";
     }
 
-    //ストップウォッチ用getTime
+    //タイマー用getTime
     public String reverseTime(int sec, int marksec){
         int ret = marksec - sec;
         if(ret < 0){
