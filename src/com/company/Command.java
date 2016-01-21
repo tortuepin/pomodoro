@@ -13,17 +13,33 @@ public class Command {
         switch(CommandCheck) {
             case "stopwatch":
                 System.out.print("stopwatch");
+                comStopwatch();
                 break;
             case "timer":
                 System.out.print("timer");
+                comTimer();
                 break;
             case "pomodoro":
                 System.out.print("pomodoro");
+                comPomodoro();
                 break;
             default:
                 System.out.print("default");
                 break;
         }
+
+    }
+
+    public void comStopwatch(){
+
+    }
+
+    public void comTimer() throws IOException {
+        RunTimer runtimer = new RunTimer(1);
+        runtimer.time();
+    }
+
+    public void comPomodoro(){
 
     }
 

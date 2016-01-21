@@ -9,10 +9,9 @@ public class Main {
         Command cm = new Command();
 
         System.out.println("Input command");
-        System.out.println("timer stopwatch pomodoro");
+        System.out.println("stopwatch timer pomodoro");
         cm.CheckCommand();
 
-        RunTimer runtimer = new RunTimer(1);
-        runtimer.time();
+
     }
 }
