@@ -44,12 +44,18 @@ class TaskOfStopwatch extends TimerTask{
 
 class TaskOfTimer extends TaskOfStopwatch {
 
+    int basesec;
+
+    public TaskOfTimer(int x){
+        basesec = x;
+    }
+
     @Override
     public void run() {
         //秒数を表示する
         second++;
         if(second != 1) System.out.print("\r");
-        System.out.print(tu.reverseTime(second, 60));
+        System.out.print(tu.reverseTime(second, basesec));
     }
 }
 
@@ -80,55 +86,38 @@ class RunTimer{
 
     public void time() throws IOException {
 
-        int pretime = 0;
-        int x = 1;
-        String checktimecom;
+
 
         System.out.println("Key Press End Timer");
 
         switch (checkcom){
             case 0:
                 //stopwatch
-                while(x > 0) {
-                    TaskOfStopwatch taskOfStopwatch = RestartStopwatch(pretime);
-                    pretime = StopTimer(taskOfStopwatch);
-                    System.out.println("「q」で終了。他で再開。");
-                    checktimecom = su.InputLine();
-
-                    //qが入力されたら終了。
-                    if(checktimecom.equals("q")) x = -1;
-                }
+                Stopwatch();
                 break;
 
 
             case 1:
                 //timer
-                while(x > 0) {
-                    TaskOfTimer tot = RestartTimer(pretime);
-                    pretime = StopTimer(tot);
-                    System.out.println("「q」で終了。他で再開。");
-                    checktimecom = su.InputLine();
-
-                    //qが入力されたら終了。
-                    if(checktimecom.equals("q")) x = -1;
-                }
+                Timer(60);
                 break;
-
-
 
 
             case 2:
                 //pomodoro
+
                 break;
 
         }
 
 
+        /*
         while(x > 0) {
             TaskOfStopwatch taskOfStopwatch = RestartStopwatch(pretime);
             pretime = StopTimer(taskOfStopwatch);
             System.in.read();
         }
+        */
         System.out.print("end");
 
 
@@ -164,8 +153,8 @@ class RunTimer{
         System.in.read();
         return taskOfStopwatch;
     }
-    public TaskOfTimer RestartTimer(int second) throws IOException {
-        TaskOfTimer taskOfTimer = new TaskOfTimer();
+    public TaskOfTimer RestartTimer(int second, int basesec) throws IOException {
+        TaskOfTimer taskOfTimer = new TaskOfTimer(basesec);
 
         taskOfTimer.setSecond(second);
         timer.scheduleAtFixedRate(taskOfTimer,0, 1000);
@@ -173,6 +162,41 @@ class RunTimer{
         System.in.read();
         return taskOfTimer;
     }
+
+
+    public void Stopwatch() throws IOException {
+        int pretime = 0;
+        int x = 1;
+        String checktimecom;
+
+        while(x > 0) {
+            TaskOfStopwatch taskOfStopwatch = RestartStopwatch(pretime);
+            pretime = StopTimer(taskOfStopwatch);
+            System.out.println("「q」で終了。他で再開。");
+            checktimecom = su.InputLine();
+
+            //qが入力されたら終了。
+            if(checktimecom.equals("q")) x = -1;
+        }
+    }
+    public void Timer(int sec) throws IOException {
+//タイマーコマンドが入力されたら
+        int pretime = 0;
+        int x = 1;
+        String checktimecom;
+
+
+        while(x > 0) {
+            TaskOfTimer tot = RestartTimer(pretime, sec);
+            pretime = StopTimer(tot);
+            System.out.println("「q」で終了。他で再開。");
+            checktimecom = su.InputLine();
+
+            //qが入力されたら終了。
+            if(checktimecom.equals("q")) x = -1;
+        }
+    }
+
 
 }
 
