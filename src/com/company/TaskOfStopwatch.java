@@ -91,7 +91,7 @@ class RunTimer{
     }
 
 
-    public void time() throws IOException {
+    public void time() throws IOException, InterruptedException {
 
 
 
@@ -160,12 +160,12 @@ class RunTimer{
         System.in.read();
         return taskOfStopwatch;
     }
-    public TaskOfTimer RestartTimer(int second, int basesec) throws IOException {
+    public TaskOfTimer RestartTimer(int second, int basesec) throws IOException, InterruptedException {
         TaskOfTimer taskOfTimer = new TaskOfTimer(basesec, timer);
 
         taskOfTimer.setSecond(second);
         timer.scheduleAtFixedRate(taskOfTimer,0, 1000);
-
+        Thread.sleep(5000);
         //System.in.read();
         return taskOfTimer;
     }
@@ -186,7 +186,7 @@ class RunTimer{
             if(checktimecom.equals("q")) x = -1;
         }
     }
-    public void Timer(int sec) throws IOException {
+    public void Timer(int sec) throws IOException, InterruptedException {
 //タイマーコマンドが入力されたら
         int pretime = 0;
         int x = 1;
@@ -203,7 +203,7 @@ class RunTimer{
             if(checktimecom.equals("q")) x = -1;
         }
     }
-    public void Pomodoro() throws IOException {
+    public void Pomodoro() throws IOException, InterruptedException {
         int x = 0;
 
         while(x > 0){
