@@ -36,12 +36,14 @@ public class Command {
 
         while(ch > 0) {
             wt.start();
-            System.in.read();
+            if(System.in.read() != 10)System.in.skip(256);
             wt.stop();
+
+            //入力を促すyo
             char swcom = (char)System.in.read();
-
+            //余計な文字をスキップする
             if(swcom != 10)System.in.skip(256);
-
+            //qなら終了rなら最初からスタート
             if (swcom == 'q') ch = -1;
             else if (swcom == 'r') {
                 wt.shutdown();
