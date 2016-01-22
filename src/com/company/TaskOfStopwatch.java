@@ -3,6 +3,7 @@ package com.company;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by suzukikohei on 2016/01/11.
@@ -20,7 +21,6 @@ class TaskOfStopwatch extends TimerTask{
     public TaskOfStopwatch(){
         super();
         second = 0;
-
     }
     //Timer.schedule()が呼び出された時にすること。
     public void run(){
@@ -45,17 +45,24 @@ class TaskOfStopwatch extends TimerTask{
 class TaskOfTimer extends TaskOfStopwatch {
 
     int basesec;
+    Timer timer;
 
-    public TaskOfTimer(int x){
+    public TaskOfTimer(int x, Timer t){
         basesec = x;
+        timer = t;
     }
 
     @Override
     public void run() {
         //秒数を表示する
         second++;
+        int time = tu.reverseTime(second, basesec);
         if(second != 1) System.out.print("\r");
-        System.out.print(tu.reverseTime(second, basesec));
+        System.out.print(tu.getTime(time));
+        if(time == 0) {
+            timer.cancel();
+            System.out.print("canceled");
+        }
     }
 }
 
@@ -99,7 +106,7 @@ class RunTimer{
 
             case 1:
                 //timer
-                Timer(60);
+                Timer(5);
                 break;
 
 
@@ -154,12 +161,12 @@ class RunTimer{
         return taskOfStopwatch;
     }
     public TaskOfTimer RestartTimer(int second, int basesec) throws IOException {
-        TaskOfTimer taskOfTimer = new TaskOfTimer(basesec);
+        TaskOfTimer taskOfTimer = new TaskOfTimer(basesec, timer);
 
         taskOfTimer.setSecond(second);
         timer.scheduleAtFixedRate(taskOfTimer,0, 1000);
 
-        System.in.read();
+        //System.in.read();
         return taskOfTimer;
     }
 
@@ -196,6 +203,18 @@ class RunTimer{
             if(checktimecom.equals("q")) x = -1;
         }
     }
+    public void Pomodoro() throws IOException {
+        int x = 0;
+
+        while(x > 0){
+            for(int i=0;i<5;i++){
+
+                Timer(1800);
+                Timer(300);
+            }
+            Timer(900);
+        }
+    }
 
 
 }
@@ -226,11 +245,11 @@ class TimeUnit{
     }
 
     //タイマー用getTime
-    public String reverseTime(int sec, int marksec){
+    public int reverseTime(int sec, int marksec){
         int ret = marksec - sec;
         if(ret < 0){
             ret = 0;
         }
-        return getTime(ret);
+        return ret;
     }
 }

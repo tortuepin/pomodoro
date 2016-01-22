@@ -30,8 +30,9 @@ public class Command {
 
     }
 
-    public void comStopwatch(){
-
+    public void comStopwatch() throws IOException {
+        RunTimer runtimer = new RunTimer(0);
+        runtimer.time();
     }
 
     public void comTimer() throws IOException {
