@@ -8,24 +8,34 @@ import java.io.IOException;
 public class Command {
     public void CheckCommand() throws IOException, InterruptedException {
         StringUtil su = new StringUtil();
-        String CommandCheck = su.InputLine();
+        int endflag = 1;
 
-        switch(CommandCheck) {
-            case "stopwatch":
-                System.out.print("stopwatch");
-                comStopwatch();
-                break;
-            case "timer":
-                System.out.print("timer");
-                comTimer();
-                break;
-            case "pomodoro":
-                System.out.print("pomodoro");
-                comPomodoro();
-                break;
-            default:
-                System.out.print("default");
-                break;
+        while (endflag > 0) {
+            System.out.println("Input command");
+            System.out.println("stopwatch timer pomodoro or end");
+            String CommandCheck = su.InputLine();
+
+
+            switch (CommandCheck) {
+                case "stopwatch":
+                    System.out.print("stopwatch");
+                    comStopwatch();
+                    break;
+                case "timer":
+                    System.out.print("timer");
+                    comTimer();
+                    break;
+                case "pomodoro":
+                    System.out.print("pomodoro");
+                    comPomodoro();
+                    break;
+                case "end":
+                    endflag = -1;
+                    break;
+                default:
+                    System.out.println("default");
+                    break;
+            }
         }
 
     }

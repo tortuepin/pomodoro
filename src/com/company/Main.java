@@ -8,8 +8,8 @@ public class Main {
 
         Command cm = new Command();
 
-        System.out.println("Input command");
-        System.out.println("stopwatch timer pomodoro");
+
+
         cm.CheckCommand();
 
 
