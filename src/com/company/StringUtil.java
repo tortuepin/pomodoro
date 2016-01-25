@@ -19,4 +19,14 @@ public class StringUtil {
         return str;
     }
 
+
+    public int CheckNumber(String str){
+        //数字なら数字。それ以外だったら0を返す。
+        try {
+            int a = Integer.parseInt(str);
+            return a;
+        } catch (NumberFormatException nfex) {
+            return 0;
+        }
+    }
 }

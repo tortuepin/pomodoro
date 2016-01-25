@@ -6,8 +6,23 @@ package com.company;
 public class Time {
     private int second = 0;
 
+    public Time(){
+
+    }
+
+    public Time(int sec){
+        ///タイマー用のコンストラクタ
+        second = sec;
+    }
+
+
+
     public void tick() {
         second++;
+    }
+
+    public void tack() {
+        second--;
     }
 
     public int getSecond() {

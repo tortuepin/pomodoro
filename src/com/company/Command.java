@@ -18,22 +18,23 @@ public class Command {
 
             switch (CommandCheck) {
                 case "stopwatch":
-                    System.out.print("stopwatch");
+                    System.out.println("Run stopwatch");
                     comStopwatch();
                     break;
                 case "timer":
-                    System.out.print("timer");
+                    System.out.println("Run timer");
                     comTimer();
                     break;
                 case "pomodoro":
-                    System.out.print("pomodoro");
+                    System.out.print("Run pomodoro");
                     comPomodoro();
                     break;
                 case "end":
+                    System.out.println("Bye");
                     endflag = -1;
                     break;
                 default:
-                    System.out.println("default");
+                    //System.out.println("default");
                     break;
             }
         }
@@ -42,9 +43,9 @@ public class Command {
 
     public void comStopwatch() throws IOException, InterruptedException {
         Watch wt = new Watch(0);
-        int ch = 1;
+        int endFlag = 1;
 
-        while(ch > 0) {
+        while(endFlag > 0) {
             wt.start();
             if(System.in.read() != 10)System.in.skip(256);
             wt.stop();
@@ -54,7 +55,7 @@ public class Command {
             //余計な文字をスキップする
             if(swcom != 10)System.in.skip(256);
             //qなら終了rなら最初からスタート
-            if (swcom == 'q') ch = -1;
+            if (swcom == 'q') endFlag = -1;
             else if (swcom == 'r') {
                 wt.shutdown();
                 wt = new Watch(0);
@@ -73,7 +74,7 @@ public class Command {
         wt.shutdown();
     }
 
-    public void comPomodoro() throws InterruptedException {
+    public void comPomodoro() throws InterruptedException, IOException {
         Watch wt = new Watch(2);
         wt.start();
         Thread.sleep(10 * 1000);

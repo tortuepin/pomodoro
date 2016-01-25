@@ -10,13 +10,17 @@ abstract class Task implements Runnable{
 
 
 class TimerTask extends Task{
+    int designatedTime;//タイマーのセットされた時間
 
-    TimerTask(Time aTime){
+    TimerTask(Time aTime, int dTime){
         time = aTime;
+        designatedTime = dTime;
     }
 
     public void run(){
-        System.out.print("timer");
+        time.tack();
+        if(time.getSecond() != designatedTime-1) System.out.print("\r");
+        System.out.print(time.getTime());
     }
 }
 

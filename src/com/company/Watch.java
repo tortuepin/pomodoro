@@ -1,6 +1,7 @@
 package com.company;
 
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -15,17 +16,27 @@ public class Watch {
     private Task task;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> future;
+    private int checkedNum;
 
     //Watchに引数をもたせてその値によってtimerかstopwatchかpomodoroか分ける
-    public Watch(int checkcom){
+    public Watch(int checkcom) throws IOException {
         switch (checkcom){
             case 0:
+                //// stopwatch
                 task = new StopwatchTask(new Time());
                 break;
             case 1:
-                task = new TimerTask(new Time());
+                //// timer
+                StringUtil su = new StringUtil();
+
+                System.out.println("Time Setting");
+                String uncheckedNam = su.InputLine();
+
+                checkedNum = su.CheckNumber(uncheckedNam);
+                task = new TimerTask(new Time(checkedNum), checkedNum);
                 break;
             case 2:
+                ////pomodoro
                 task = new PomodoroTask(new Time());
                 break;
             default:
@@ -59,6 +70,8 @@ public class Watch {
             future.cancel(true);
         }
     }
+
+
 
     /**
      * schedulerをシャットダウンする
