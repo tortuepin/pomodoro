@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Watch {
 
-    private Task task;
+    public Task task;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> future;
     private int checkedNum;

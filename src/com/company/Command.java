@@ -1,13 +1,17 @@
 package com.company;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by suzukikohei on 2016/01/21.
  */
 public class Command {
+    StringUtil su = new StringUtil();
+
     public void CheckCommand() throws IOException, InterruptedException {
-        StringUtil su = new StringUtil();
+
         int endflag = 1;
 
         while (endflag > 0) {
@@ -68,10 +72,30 @@ public class Command {
 
     public void comTimer() throws IOException, InterruptedException {
         Watch wt = new Watch(1);
+        int endFlag = 1;
+
+
         wt.start();
-        Thread.sleep(10 * 1000);
+        while(endFlag > 0){
+            //もしバッファになんかあったら
+            if(su.input.ready()){
+                su.input.skip(1);
+                endFlag = -1;
+                break;
+            }
+            if(wt.task.time.getSecond() <= 0){
+                endFlag = -1;
+                System.out.println('\n' + "owari");
+                break;
+            }
+            Thread.sleep(100);
+        }
         wt.stop();
         wt.shutdown();
+
+        while(su.input.ready()){
+            su.input.skip(1);
+        }
     }
 
     public void comPomodoro() throws InterruptedException, IOException {
