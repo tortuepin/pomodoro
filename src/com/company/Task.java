@@ -44,6 +44,9 @@ class PomodoroTask extends Task{
     }
 
     public void run(){
-        System.out.print("pomodoro");
+        time.tack();
+        System.out.print("\r");
+        System.out.print(time.getTime());
     }
+
 }

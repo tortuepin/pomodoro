@@ -37,7 +37,7 @@ public class Watch {
                 break;
             case 2:
                 ////pomodoro
-                task = new PomodoroTask(new Time());
+                task = new PomodoroTask(new Time(1500));
                 break;
             default:
                 break;

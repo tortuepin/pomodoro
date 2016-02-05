@@ -72,6 +72,15 @@ public class Command {
 
     public void comTimer() throws IOException, InterruptedException {
         Watch wt = new Watch(1);
+        timerFunc(wt);
+    }
+
+    public void comPomodoro() throws InterruptedException, IOException {
+        Watch wt = new Watch(2);
+        timerFunc(wt);
+    }
+
+    public void timerFunc(Watch wt) throws InterruptedException, IOException {
         int endFlag = 1;
 
 
@@ -96,14 +105,6 @@ public class Command {
         while(su.input.ready()){
             su.input.skip(1);
         }
-    }
-
-    public void comPomodoro() throws InterruptedException, IOException {
-        Watch wt = new Watch(2);
-        wt.start();
-        Thread.sleep(10 * 1000);
-        wt.stop();
-        wt.shutdown();
     }
 
 
