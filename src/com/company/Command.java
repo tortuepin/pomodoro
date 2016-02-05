@@ -76,8 +76,15 @@ public class Command {
     }
 
     public void comPomodoro() throws InterruptedException, IOException {
-        Watch wt = new Watch(2);
-        timerFunc(wt);
+        for(int i=0; i < 5; i++) {
+            Watch wt = new Watch(2);
+            wt.task.time.setSecond(1500);
+            timerFunc(wt);
+
+            Watch nwt = new Watch(2);
+            nwt.task.time.setSecond(300);
+            timerFunc(nwt);
+        }
     }
 
     public void timerFunc(Watch wt) throws InterruptedException, IOException {
